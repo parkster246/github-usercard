@@ -5,9 +5,8 @@
 */
 axios.get('https://api.github.com/users/parkster246')
 .then(response =>{
-    let myCard = cardMaker(response.data)
-    let newCard = document.querySelector('.cards')
-    newCard.appendChild(myCard)
+    cardMaker(response.data)
+    
     followersArray.forEach((objects) => {
       axios.get(`https://api.github.com/users/${objects}`)
       .then(response =>{
@@ -112,10 +111,11 @@ function cardMaker(object) {
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
   profile.appendChild(link);
-
-  return card;
-}
 let newCard = document.querySelector(".cards")
+  newCard.appendChild(card)
+  return newCard;
+}
+
 
 
 

@@ -3,7 +3,22 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/parkster246')
+.then(response =>{
+    cardMaker(response.data)
+    
+    followersArray.forEach((objects) => {
+      axios.get(`https://api.github.com/users/${objects}`)
+      .then(response =>{
+        cardMaker(response.data)
+      })
+      
+      
+    })
+})
+.catch(error =>{
+  console.log("Error:", error)
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +43,13 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +70,56 @@ const followersArray = [];
       </div>
     </div>
 */
+function cardMaker(object) {
+  let card = document.createElement("div")
+  card.classList.add("card");
+
+  let img1 = document.createElement("img")
+  let cardInfo = document.createElement("div")
+  cardInfo.classList.add("card-info");
+
+  let name = document.createElement("h3")
+  name.classList.add("name");
+
+  let username = document.createElement("p")
+  username.classList.add("username");
+
+  let location = document.createElement("p")
+  let profile = document.createElement("p")
+  let link = document.createElement("a")
+  let followers = document.createElement("p")
+  let following = document.createElement("p")
+  let bio = document.createElement("p")
+
+  img1.src = object.avatar_url;
+  name.textContent = object.name;
+  username.textContent = object.login;
+  location.textContent = (`Location: ${object.location}`);
+  profile.textContent = (`Profile: ${link}`);
+  link.textContent = object.html_url;
+  followers.textContent = (`Followers: ${object.followers}`);
+  following.textContent = (`Following: ${object.following}`);
+  bio.textContent = (`Bio: ${object.bio}`);
+
+  card.appendChild(img1);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  profile.appendChild(link);
+let newCard = document.querySelector(".cards")
+  newCard.appendChild(card)
+  return newCard;
+}
+
+
+
+
+
 
 /*
   List of LS Instructors Github username's:
